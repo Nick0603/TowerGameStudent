@@ -25,6 +25,11 @@ var towerBtnImg = document.createElement("img");
 towerBtnImg.src = "images/tower-btn.png";
 var towerBtnSize = 60;
 
+var slimeImg = document.createElement("img");
+slimeImg.src = "images/slime.gif";
+
+var FPS = 60;
+
 var hero = {
 	x:0,
 	y:0
@@ -40,6 +45,19 @@ var tower = {
 	y: 0
 }
 
+var enemy = {
+	x:1 * 32 ,
+	y:2 * 32,
+	speed:64,
+	direction:{x:0,y:1},
+	move:function(){
+		if(this.direction.x!=0){
+			this.x = this.x + this.speed/FPS * this.direction.x;
+		}else{
+			this.y = this.y + this.speed/FPS * this.direction.y;
+		}
+	}
+}
 
 function draw(){
 	// 將背景圖片畫在 canvas 上的 (0,0) 位置
@@ -47,13 +65,15 @@ function draw(){
 	ctx.drawImage(heroImg,hero.x,hero.y);
 	ctx.drawImage(towerBtnImg, 640-towerBtnSize , 480-towerBtnSize ,towerBtnSize,towerBtnSize); 
 	ctx.drawImage(towerImg,tower.x,tower.y,32,32); 
+	enemy.move();
+	ctx.drawImage(slimeImg,enemy.x,enemy.y,32,32); 
 	if( isBuilding == true){
 		ctx.drawImage(towerImg,cursor.x,cursor.y,32,32); 
 	}
 }
 
 // 執行 draw 函式
-setInterval(draw,16);
+setInterval(draw,1000/FPS);
 
 $( "#game-canvas" ).mousemove( function( event ) {
 	cursor.x =  event.offsetX - event.offsetX%32 ;
