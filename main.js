@@ -30,11 +30,23 @@ var hero = {
 	y:0
 };
 
+var cursor = {
+	x: 0,
+	y: 0
+}; 	
+
+var tower = {
+	x: 0,
+	y: 0
+}
+
+
 function draw(){
 	// 將背景圖片畫在 canvas 上的 (0,0) 位置
 	ctx.drawImage(bgImg,0,0); 
 	ctx.drawImage(heroImg,hero.x,hero.y);
 	ctx.drawImage(towerBtnImg, 640-towerBtnSize , 480-towerBtnSize ,towerBtnSize,towerBtnSize); 
+	ctx.drawImage(towerImg,tower.x,tower.y,32,32); 
 	if( isBuilding == true){
 		ctx.drawImage(towerImg,cursor.x,cursor.y,32,32); 
 	}
@@ -43,14 +55,9 @@ function draw(){
 // 執行 draw 函式
 setInterval(draw,16);
 
-var cursor = {
-	x: 0,
-	y: 0
-}; 	
-
 $( "#game-canvas" ).mousemove( function( event ) {
-	cursor.x =  event.offsetX;
-	cursor.y =  event.offsetY;
+	cursor.x =  event.offsetX - event.offsetX%32 ;
+	cursor.y =  event.offsetY - event.offsetY%32 ;
 });
 
 
@@ -60,11 +67,15 @@ $( "#game-canvas" ).click( function( event ) {
 	if(event.offsetX > (640-60)  &&	event.offsetY > (480-60) ){
 
 		if(isBuilding == false ){
-			isBuilding = true; 
+			isBuilding = true;
 		}else{
 			isBuilding = false;
 		}
 
+	}else if(isBuilding == true){
+		tower.x = cursor.x;
+		tower.y = cursor.y;
+		isBuilding = false;
 	}
 });
 
