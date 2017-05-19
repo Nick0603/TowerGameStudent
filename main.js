@@ -49,8 +49,33 @@ var enemy = {
 	x:1 * 32 ,
 	y:2 * 32,
 	speed:64,
+	direction:{
+		x:0,
+		y:1
+	},
+	pathIndex:0,
+	move:function(){
+		if(this.direction.x != 0){
+			this.x = this.x + this.speed/FPS * this.direction.x ;
+		}else{
+			this.y = this.y + this.speed/FPS * this.direction.y ;
+		}
+	}
 }
-pathIndex = 0;
+
+var enemyPath = [
+	{x:32*1,y:32*13},
+	{x:32*18,y:32*13},
+	{x:32*18,y:32*2},
+	{x:32*4,y:32*2},
+	{x:32*4,y:32*10},
+	{x:32*15,y:32*10},
+	{x:32*15,y:32*5},
+	{x:32*7,y:32*5},
+	{x:32*7,y:32*7},
+	{x:32*11,y:32*7}
+]
+
 
 function draw(){
 	// 將背景圖片畫在 canvas 上的 (0,0) 位置
@@ -59,71 +84,13 @@ function draw(){
 	ctx.drawImage(towerBtnImg, 640-towerBtnSize , 480-towerBtnSize ,towerBtnSize,towerBtnSize); 
 	ctx.drawImage(towerImg,tower.x,tower.y,32,32); 
 
-	if(pathIndex == 0){
-		enemy.y = enemy.y + enemy.speed/FPS ;
-		if(enemy.y > 32*13){
-			pathIndex = pathIndex + 1;
-			enemy.y = 32*13;
-		}
-	}else if(pathIndex == 1){
-		enemy.x = enemy.x + enemy.speed/FPS ;
-		if(enemy.x > 32*18){
-			pathIndex = pathIndex + 1;
-			enemy.x = 32*18;
-		}
-	}else if(pathIndex == 2){
-		enemy.y = enemy.y - enemy.speed/FPS ;
-		if(enemy.y < 32*2){
-			pathIndex = pathIndex + 1;
-			enemy.y = 32*2;
-		}
-	}else if(pathIndex == 3){
-		enemy.x = enemy.x - enemy.speed/FPS ;
-		if(enemy.x < 32*4){
-			pathIndex = pathIndex + 1;
-			enemy.x = 32*4;
-		}
-	}else if(pathIndex == 4){
-		enemy.y = enemy.y + enemy.speed/FPS ;
-		if(enemy.y > 32*10){
-			pathIndex = pathIndex + 1;
-			enemy.y = 32*10;
-		}
-	}else if(pathIndex == 5){
-		enemy.x = enemy.x + enemy.speed/FPS ;
-		if(enemy.x > 32*15){
-			pathIndex = pathIndex + 1;
-			enemy.x = 32*15;
-		}
-	}else if(pathIndex == 6){
-		enemy.y = enemy.y - enemy.speed/FPS ;
-		if(enemy.y < 32*5){
-			pathIndex = pathIndex + 1;
-			enemy.y = 32*5;
-		}
-	}else if(pathIndex == 7){
-		enemy.x = enemy.x - enemy.speed/FPS ;
-		if(enemy.x < 32*7){
-			pathIndex = pathIndex + 1;
-			enemy.x = 32*7;
-		}
-	}else if(pathIndex == 8){
-		enemy.y = enemy.y + enemy.speed/FPS ;
-		if(enemy.y > 32*7){
-			pathIndex = pathIndex + 1;
-			enemy.y = 32*7;
-		}
-	}else if(pathIndex == 9){
-		enemy.x = enemy.x + enemy.speed/FPS ;
-		if(enemy.x > 32*11){
-			pathIndex = pathIndex + 1;
-			enemy.x = 32*11;
-		}
-	}else{
+	enemy.move();
+	ctx.drawImage(slimeImg,enemy.x,enemy.y,32,32); 
 
+	for(var i=0; i<enemyPath.length;i++){
+		ctx.drawImage(slimeImg,enemyPath[i].x,enemyPath[i].y,32,32); 
 	}
 
-	ctx.drawImage(slimeImg,enemy.x,enemy.y,32,32); 
 	if( isBuilding == true){
 		ctx.drawImage(towerImg,cursor.x,cursor.y,32,32); 
 	}
