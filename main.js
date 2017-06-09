@@ -55,14 +55,7 @@ var enemy = {
 	},
 	pathIndex:0,
 	move:function(){
-		if(this.direction.x != 0){
-			this.x = this.x + this.speed/FPS * this.direction.x ;
-		}else{
-			this.y = this.y + this.speed/FPS * this.direction.y ;
-		}
-
-
-		if(isCollided( 
+		if( this.pathIndex < enemyPath.length && isCollided( 
 			enemyPath[this.pathIndex].x, 
 			enemyPath[this.pathIndex].y, 
 			this.x, this.y, 
@@ -72,6 +65,9 @@ var enemy = {
 			this.y = enemyPath[this.pathIndex].y;
 			this.pathIndex = this.pathIndex + 1;
 			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathIndex].x,enemyPath[this.pathIndex].y);
+		}else{
+			this.x = this.x + this.speed/FPS * this.direction.x ;
+			this.y = this.y + this.speed/FPS * this.direction.y ;
 		}
 	}
 }
