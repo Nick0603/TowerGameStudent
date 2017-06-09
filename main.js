@@ -55,11 +55,8 @@ var enemy = {
 	},
 	pathIndex:0,
 	move:function(){
-		if(this.direction.x != 0){
 			this.x = this.x + this.speed/FPS * this.direction.x ;
-		}else{
 			this.y = this.y + this.speed/FPS * this.direction.y ;
-		}
 	}
 }
 
@@ -122,4 +119,3 @@ $( "#game-canvas" ).click( function( event ) {
 		isBuilding = false;
 	}
 });
-
