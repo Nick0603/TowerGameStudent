@@ -55,8 +55,24 @@ var enemy = {
 	},
 	pathIndex:0,
 	move:function(){
+		if(this.direction.x != 0){
 			this.x = this.x + this.speed/FPS * this.direction.x ;
+		}else{
 			this.y = this.y + this.speed/FPS * this.direction.y ;
+		}
+
+
+		if(isCollided( 
+			enemyPath[this.pathIndex].x, 
+			enemyPath[this.pathIndex].y, 
+			this.x, this.y, 
+			this.speed/FPS, this.speed/FPS
+		)){
+			this.x = enemyPath[this.pathIndex].x;
+			this.y = enemyPath[this.pathIndex].y;
+			this.pathIndex = this.pathIndex + 1;
+			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathIndex].x,enemyPath[this.pathIndex].y);
+		}
 	}
 }
 
@@ -119,3 +135,34 @@ $( "#game-canvas" ).click( function( event ) {
 		isBuilding = false;
 	}
 });
+
+//循跡演算法
+function isCollided ( pointX, pointY, targetX, targetY, targetWidth, targetHeight ) {
+	if(     pointX >= targetX
+        &&  pointX <= targetX + targetWidth
+        &&  pointY >= targetY
+        &&  pointY <= targetY + targetHeight
+  	){
+	        return true;
+	} else {
+	        return false;
+	}
+}
+
+//單位向量演算法
+function getUnitVector (srcX, srcY, targetX, targetY) {
+
+   var offsetX = targetX - srcX;
+
+   var offsetY = targetY - srcY;
+
+   var distance = Math.sqrt( Math.pow(offsetX,2) + Math.pow(offsetY,2) );
+
+   var unitVector = {
+       x: offsetX/distance,
+       y: offsetY/distance
+   };
+   return unitVector;
+
+}
+
