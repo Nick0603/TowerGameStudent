@@ -45,17 +45,19 @@ var tower = {
 	y: 0
 }
 
-var enemy = {
-	x:1 * 32 ,
-	y:2 * 32,
-	speed:64,
-	direction:{
+var enemy = new Enemy();
+
+function Enemy(){
+	this.x = 1 * 32;
+	this.y = 2 * 32;
+	this.speed = 64;
+	this.direction = {
 		x:0,
 		y:1
-	},
-	pathIndex:0,
-	move:function(){
-		if( this.pathIndex < enemyPath.length && isCollided( 
+	};
+	this.pathIndex = 0;
+	this.move = function(){
+		if( isCollided( 
 			enemyPath[this.pathIndex].x, 
 			enemyPath[this.pathIndex].y, 
 			this.x, this.y, 
@@ -69,7 +71,7 @@ var enemy = {
 			this.x = this.x + this.speed/FPS * this.direction.x ;
 			this.y = this.y + this.speed/FPS * this.direction.y ;
 		}
-	}
+	};
 }
 
 var enemyPath = [
