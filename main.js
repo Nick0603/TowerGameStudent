@@ -45,7 +45,9 @@ var tower = {
 	y: 0
 }
 
-var enemy = new Enemy();
+
+var enemies = [];
+enemies.push( new Enemy() );
 
 function Enemy(){
 	this.x = 1 * 32;
@@ -87,6 +89,7 @@ var enemyPath = [
 	{x:32*11,y:32*7}
 ]
 
+var clock = 0;
 
 function draw(){
 	// 將背景圖片畫在 canvas 上的 (0,0) 位置
@@ -95,15 +98,19 @@ function draw(){
 	ctx.drawImage(towerBtnImg, 640-towerBtnSize , 480-towerBtnSize ,towerBtnSize,towerBtnSize); 
 	ctx.drawImage(towerImg,tower.x,tower.y,32,32); 
 
-	enemy.move();
-	ctx.drawImage(slimeImg,enemy.x,enemy.y,32,32); 
-
-	for(var i=0; i<enemyPath.length;i++){
-		ctx.drawImage(slimeImg,enemyPath[i].x,enemyPath[i].y,32,32); 
+	for(var i=0 ; i<enemies.length ; i++){
+		enemies[i].move();
+		ctx.drawImage(slimeImg,enemies[i].x,enemies[i].y,32,32); 
 	}
+
 
 	if( isBuilding == true){
 		ctx.drawImage(towerImg,cursor.x,cursor.y,32,32); 
+	}
+	clock ++;
+	if (clock % 80 == 0) {
+		var newEnemy = new Enemy();
+		enemies.push(newEnemy);
 	}
 }
 
