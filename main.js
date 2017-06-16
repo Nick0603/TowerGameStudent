@@ -82,12 +82,15 @@ function Enemy(){
 			if(this.pathIndex == enemyPath.length){
 				this.hp = 0;
 				hp = hp - 10;
-			}
-
+			}else{
+				
 			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathIndex].x,enemyPath[this.pathIndex].y);
+			
+		}
 		}else{
 			this.x = this.x + this.speed/FPS * this.direction.x ;
 			this.y = this.y + this.speed/FPS * this.direction.y ;
+			
 		}
 	};
 }
