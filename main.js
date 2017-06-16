@@ -45,6 +45,15 @@ var tower = {
 	y: 0
 }
 
+//生命樹的血量
+var hp = 100;
+
+// 設定接下來印出的字體的大小及字型
+ctx.font = "24px Arial";
+
+// 設定接下來印出的字體的顏色
+ctx.fillStyle = "white";
+
 
 var enemies = [];
 enemies.push( new Enemy() );
@@ -112,6 +121,9 @@ function draw(){
 		var newEnemy = new Enemy();
 		enemies.push(newEnemy);
 	}
+
+	ctx.fillText( "HP:"+hp, 32*11.5, 32*9.5 );
+
 }
 
 // 執行 draw 函式
