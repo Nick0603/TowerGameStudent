@@ -62,6 +62,7 @@ function Enemy(){
 	this.x = 1 * 32;
 	this.y = 2 * 32;
 	this.speed = 64;
+	this.hp = 10;
 	this.direction = {
 		x:0,
 		y:1
@@ -77,6 +78,12 @@ function Enemy(){
 			this.x = enemyPath[this.pathIndex].x;
 			this.y = enemyPath[this.pathIndex].y;
 			this.pathIndex = this.pathIndex + 1;
+
+			if(this.pathIndex == enemyPath.length){
+				this.hp = 0;
+				hp = hp - 10;
+			}
+
 			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathIndex].x,enemyPath[this.pathIndex].y);
 		}else{
 			this.x = this.x + this.speed/FPS * this.direction.x ;
@@ -107,11 +114,16 @@ function draw(){
 	ctx.drawImage(towerBtnImg, 640-towerBtnSize , 480-towerBtnSize ,towerBtnSize,towerBtnSize); 
 	ctx.drawImage(towerImg,tower.x,tower.y,32,32); 
 
+	for(var i=enemies.length-1 ; i>=0 ; i--){
+		if(enemies[i].hp <= 0){
+			enemies.splice(i,1);
+		}
+	}
+
 	for(var i=0 ; i<enemies.length ; i++){
 		enemies[i].move();
 		ctx.drawImage(slimeImg,enemies[i].x,enemies[i].y,32,32); 
 	}
-
 
 	if( isBuilding == true){
 		ctx.drawImage(towerImg,cursor.x,cursor.y,32,32); 
