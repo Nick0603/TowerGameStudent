@@ -120,12 +120,11 @@ function draw(){
 	for(var i=enemies.length-1 ; i>=0 ; i--){
 		if(enemies[i].hp <= 0){
 			enemies.splice(i,1);
+		}else{
+			enemies[i].move();
+			ctx.drawImage(slimeImg,enemies[i].x,enemies[i].y,32,32);
+			console.log(enemies[i].x + " " + enemies[i].y);
 		}
-	}
-
-	for(var i=0 ; i<enemies.length ; i++){
-		enemies[i].move();
-		ctx.drawImage(slimeImg,enemies[i].x,enemies[i].y,32,32); 
 	}
 
 	if( isBuilding == true){
