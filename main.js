@@ -28,6 +28,10 @@ var towerBtnSize = 60;
 var slimeImg = document.createElement("img");
 slimeImg.src = "images/slime.gif";
 
+// 初始化：
+var crosshairImg = document.createElement("img");
+crosshairImg.src = "images/crosshair.png";
+
 var FPS = 60;
 
 var hero = {
@@ -39,10 +43,28 @@ var cursor = {
 	x: 0,
 	y: 0
 }; 	
-
+// 初始化：
+var crosshairImg = document.createElement("img");
+crosshairImg.src = "images/crosshair.png";
 var tower = {
 	x: 0,
-	y: 0
+	y: 0,
+	range: 96,
+	aimingEnemyId:null,
+	searchEnemy: function(){
+		for(var i=0; i<enemies.length; i++){
+			var distance = Math.sqrt( 
+				Math.pow(this.x-enemies[i].x,2) + Math.pow(this.y-enemies[i].y,2) 
+			);
+			if (distance<=this.range) {
+				this.aimingEnemyId = i;
+				return;
+			}
+		}
+		// 如果都沒找到，會進到這行，清除鎖定的目標
+		this.aimingEnemyId = null;
+	}
+
 }
 
 //生命樹的血量
@@ -122,7 +144,6 @@ function draw(){
 		}else{
 			enemies[i].move();
 			ctx.drawImage(slimeImg,enemies[i].x,enemies[i].y,32,32);
-			console.log(enemies[i].x + " " + enemies[i].y);
 		}
 	}
 
@@ -133,6 +154,12 @@ function draw(){
 	if (clock % 80 == 0) {
 		var newEnemy = new Enemy();
 		enemies.push(newEnemy);
+	}
+
+	tower.searchEnemy();
+	if ( tower.aimingEnemyId!=null ) {
+	    var id = tower.aimingEnemyId;
+	    ctx.drawImage( crosshairImg, enemies[id].x, enemies[id].y );
 	}
 
 	ctx.fillText( "HP:"+hp, 32*11.5, 32*9.5 );
