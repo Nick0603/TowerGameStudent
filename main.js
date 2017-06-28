@@ -89,24 +89,24 @@ function Enemy(){
 		x:0,
 		y:1
 	};
-	this.pathIndex = 0;
+	this.pathDes = 0;
 	this.move = function(){
 		if( isCollided( 
-			enemyPath[this.pathIndex].x, 
-			enemyPath[this.pathIndex].y, 
+			enemyPath[this.pathDes].x, 
+			enemyPath[this.pathDes].y, 
 			this.x, this.y, 
 			this.speed/FPS, this.speed/FPS
 		)){
-			this.x = enemyPath[this.pathIndex].x;
-			this.y = enemyPath[this.pathIndex].y;
-			this.pathIndex = this.pathIndex + 1;
+			this.x = enemyPath[this.pathDes].x;
+			this.y = enemyPath[this.pathDes].y;
+			this.pathDes = this.pathDes + 1;
 
-			if(this.pathIndex == enemyPath.length){
+			if(this.pathDes == enemyPath.length){
 				this.hp = 0;
 				hp = hp - 10;
 				return;
 			}
-			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathIndex].x,enemyPath[this.pathIndex].y);
+			this.direction = getUnitVector(this.x,this.y,enemyPath[this.pathDes].x,enemyPath[this.pathDes].y);
 		
 		}else{
 			this.x = this.x + this.speed/FPS * this.direction.x ;
